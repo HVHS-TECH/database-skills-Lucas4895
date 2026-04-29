@@ -7,15 +7,18 @@
 // Input:  n/a
 // Return: n/a
 /**************************************************************/
-  const firebaseConfig = {
-    apiKey: ,
-    authDomain: ,
-    databaseURL: ,
-    projectId: ,
-    storageBucket: ,
-    messagingSenderId:,
-    appId:
-  };
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCAu1V43MdfTMR2v_1uZahvkvL22TZS4C4",
+  authDomain: "comp-38a34.firebaseapp.com",
+  databaseURL: "https://comp-38a34-default-rtdb.firebaseio.com",
+  projectId: "comp-38a34",
+  storageBucket: "comp-38a34.firebasestorage.app",
+  messagingSenderId: "504488074470",
+  appId: "1:504488074470:web:90d9f85faf66e0441f6f27",
+  measurementId: "G-LGV3RGZ7PE"
+};
 
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
