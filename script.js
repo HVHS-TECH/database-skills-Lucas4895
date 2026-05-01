@@ -17,6 +17,36 @@ const HTML_OUTPUT = document.getElementById("databaseOutput");
 // The ref('/') part tells the operation to write to the base level of the database "/"
 // This means it replaces the whole database with message:Hello World
 /**************************************************************/
+
+function fb_readListener(){
+  console.log('Read Listener')
+  firebase.database().ref('/message').on('value', read, fb_readError);
+}
+
+function highScore(){
+  console.log('High Scores')
+  firebase.database().ref('/').set(
+    {
+      highScoreTable: {
+        users: {
+          Jack: {
+            personalBest: 200,
+            lowestScore: 20,
+          },
+          Sasha: {
+            personalBest: 319,
+            lowestScore: 52,
+          },
+          Michael: {
+            personalBest: 582,
+            lowestScore: 122,
+          }
+        }
+      }
+    }
+  )
+}
+
 function helloWorld(){
   console.log("Running helloWorld()")
   firebase.database().ref('/').set(
@@ -41,6 +71,15 @@ function read(){
   console.log("Leaving simpleRead")
 }
 
+function fb_readHighScores(){
+  console.log("Reading high scores");
+  firebase.database().ref('/highScoreTable/users').once('value', displayHighScore, fb_readError);
+}
+
+function displayHighScore(snapshot){
+  console.log(snapshot.val())
+}
+
 function display(snapshot){
   var data = snapshot.val();
   HTML_OUTPUT.innerHTML = snapshot.val();
@@ -55,4 +94,4 @@ function display(snapshot){
 function fb_readError(error) {
   console.log("There was an error reading the message")
   console.log(error);
-}
+} 
