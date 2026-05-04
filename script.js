@@ -23,6 +23,11 @@ function fb_readListener(){
   firebase.database().ref('/message').on('value', read, fb_readError);
 }
 
+/****************************************/ 
+//High score table
+//
+/****************************************/ 
+
 function highScore(){
   console.log('High Scores')
   firebase.database().ref('/').set(
@@ -46,6 +51,28 @@ function highScore(){
     }
   )
 }
+
+function fb_readHighScores(){
+  console.log("Reading high scores");
+  firebase.database().ref('/highScoreTable/users').once('value', displayHighScore, fb_readError);
+}
+
+function displayHighScore(snapshot){
+  console.log(snapshot.val())
+}
+
+function addNewPlayer(){
+  console.log("Adding Robert");
+  firebase.database().ref('/highScoreTable/users').set(
+    {
+      Robert: {
+        personalBest: 120,
+        lowestScore: 120,
+      }
+    }
+  )
+}
+
 
 function helloWorld(){
   console.log("Running helloWorld()")
@@ -71,14 +98,6 @@ function read(){
   console.log("Leaving simpleRead")
 }
 
-function fb_readHighScores(){
-  console.log("Reading high scores");
-  firebase.database().ref('/highScoreTable/users').once('value', displayHighScore, fb_readError);
-}
-
-function displayHighScore(snapshot){
-  console.log(snapshot.val())
-}
 
 function display(snapshot){
   var data = snapshot.val();
