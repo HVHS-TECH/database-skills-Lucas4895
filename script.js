@@ -18,10 +18,7 @@ const HTML_OUTPUT = document.getElementById("databaseOutput");
 // This means it replaces the whole database with message:Hello World
 /**************************************************************/
 
-function fb_readListener(){
-  console.log('Read Listener')
-  firebase.database().ref('/message').on('value', read, fb_readError);
-}
+
 
 /****************************************/ 
 //High score table
@@ -54,21 +51,24 @@ function highScore(){
 
 function fb_readHighScores(){
   console.log("Reading high scores");
-  firebase.database().ref('/highScoreTable/users').once('value', displayHighScore, fb_readError);
+  firebase.database().ref('/highScoreTable/users').once('value', fb_displayHighScore, fb_readError);
 }
 
-function displayHighScore(snapshot){
-  console.log(snapshot.val())
+
+
+function fb_displayHighScore(snapshot){
+  let highScores = snapshot.val()
+
+  console.log("Robert got " + highScores["Robert"] + " points")
+
 }
 
 function addNewPlayer(){
   console.log("Adding Robert");
-  firebase.database().ref('/highScoreTable/users').set(
+  firebase.database().ref('/highScoreTable/users/' + "Robert").set(
     {
-      Robert: {
         personalBest: 120,
         lowestScore: 120,
-      }
     }
   )
 }
@@ -92,12 +92,21 @@ function goodbye(){
   )
 }
 
+/**********************************************/ 
+//Read
+//
+/**********************************************/ 
+
 function read(){
   console.log("Reading message");
   firebase.database().ref('/').child('message').once('value', display, fb_readError);
   console.log("Leaving simpleRead")
 }
 
+function fb_readListener(){
+  console.log('Read Listener')
+  firebase.database().ref('/message').on('value', read, fb_readError);
+}
 
 function display(snapshot){
   var data = snapshot.val();
