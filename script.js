@@ -60,14 +60,11 @@ function fb_readHighScoresTable(){
 }
 
 function fb_displayHighScoresTable(snapshot){
-  let highScores = snapshot.val()
-  let names = Object.keys(highScores);
-  console.log(names)
-  for(i = 0; i < names.length;i++){
-    let key = names[i];
-    console.log("Score " +i+ " is for " + key + ". Highest score of " + highScores[key].personalBest + " points and lowest score of " + highScores[key].lowestScore)
-  }
+  snapshot.forEach(fb_showOneScore)
+}
 
+function fb_showOneScore(child){
+  console.log(child.key+"'s personal best is "+ child.val().personalBest+ " points");
 }
 
 function fb_displayHighScore(snapshot){
