@@ -54,12 +54,26 @@ function fb_readHighScores(){
   firebase.database().ref('/highScoreTable/users').once('value', fb_displayHighScore, fb_readError);
 }
 
+function fb_readHighScoresTable(){
+  console.log("Reading high scores");
+  firebase.database().ref('/highScoreTable/users').once('value', fb_displayHighScoresTable, fb_readError);
+}
 
+function fb_displayHighScoresTable(snapshot){
+  let highScores = snapshot.val()
+  let names = Object.keys(highScores);
+  console.log(names)
+  for(i = 0; i < names.length;i++){
+    let key = names[i];
+    console.log("Score " +i+ " is for " + key + ". Highest score of " + highScores[key].personalBest + " points and lowest score of " + highScores[key].lowestScore)
+  }
+
+}
 
 function fb_displayHighScore(snapshot){
   let highScores = snapshot.val()
 
-  console.log("Robert got " + highScores["Robert"] + " points")
+  console.log("Robert got a highest score of " + highScores["Robert"].personalBest + " points and a lowest score of " + highScores["Robert"].lowestScore)
 
 }
 
@@ -68,7 +82,7 @@ function addNewPlayer(){
   firebase.database().ref('/highScoreTable/users/' + "Robert").set(
     {
         personalBest: 120,
-        lowestScore: 120,
+        lowestScore: 100,
     }
   )
 }
