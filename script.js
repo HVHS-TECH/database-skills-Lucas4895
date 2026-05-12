@@ -32,11 +32,11 @@ function highScore(){
       highScoreTable: {
         users: {
           Jack: {
-            personalBest: 200,
+            personalBest: 1000,
             lowestScore: 20,
           },
-          Sasha: {
-            personalBest: 319,
+          Asha: {
+            personalBest: 619,
             lowestScore: 52,
           },
           Michael: {
@@ -49,34 +49,58 @@ function highScore(){
   )
 }
 
-function fb_readHighScores(){
-  console.log("Reading high scores");
-  firebase.database().ref('/highScoreTable/users').once('value', fb_displayHighScore, fb_readError);
-}
-
-function fb_readHighScoresTable(){
+//Reading High Score Table
+//
+function fb_readHST(){
   console.log("Reading high scores");
   firebase.database().ref('/highScoreTable/users').once('value', fb_displayHighScoresTable, fb_readError);
 }
 
-function fb_displayHighScoresTable(snapshot){
-  snapshot.forEach(fb_showOneScore)
+//Reading New Scores
+//
+function fb_readNewScores(){
+  console.log("Reading new scores");
+  firebase.database().ref('/highScoreTable/users').once('value', fb_displayNewScore, fb_readError);
 }
+
+//Reading High Scores Table (Sort by score)
+//
+function fb_readHSTSortByScore(){
+  console.log("Reading high scores, sorting by scores");
+  firebase.database().ref('/highScoreTable/users').orderByChild('personalBest').once('value', fb_displayHighScoresTable, fb_readError);
+}
+
+//Reading High Score Table (Sort by name / alphabetical order)
+//
+function fb_readHSTSortByName(){
+  console.log("Reading high scores");
+  firebase.database().ref('/highScoreTable/users').orderByKey().once('value', fb_displayHighScoresTable, fb_readError);
+}
+
 
 function fb_showOneScore(child){
   console.log(child.key+"'s personal best is "+ child.val().personalBest+ " points");
 }
 
-function fb_displayHighScore(snapshot){
+//Display functions
+//
+function fb_displayHighScoresTable(snapshot){
+  snapshot.forEach(fb_showOneScore)
+}
+
+function fb_displayNewScore(snapshot){
   let highScores = snapshot.val()
 
-  console.log("Robert got a highest score of " + highScores["Robert"].personalBest + " points and a lowest score of " + highScores["Robert"].lowestScore)
+  console.log("Bobert got a highest score of " + highScores["Bobert"].personalBest + " points and a lowest score of " + highScores["Bobert"].lowestScore)
 
 }
 
+
+//Add new player
+//
 function addNewPlayer(){
-  console.log("Adding Robert");
-  firebase.database().ref('/highScoreTable/users/' + "Robert").set(
+  console.log("Adding Bobert");
+  firebase.database().ref('/highScoreTable/users/' + "Bobert").set(
     {
         personalBest: 120,
         lowestScore: 100,
@@ -85,6 +109,8 @@ function addNewPlayer(){
 }
 
 
+
+//Messages
 function helloWorld(){
   console.log("Running helloWorld()")
   firebase.database().ref('/').set(
@@ -102,11 +128,6 @@ function goodbye(){
     }
   )
 }
-
-/**********************************************/ 
-//Read
-//
-/**********************************************/ 
 
 function read(){
   console.log("Reading message");
@@ -130,6 +151,7 @@ function display(snapshot){
   }
 }
 
+//error handler
 function fb_readError(error) {
   console.log("There was an error reading the message")
   console.log(error);
