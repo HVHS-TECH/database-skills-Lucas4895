@@ -36,5 +36,7 @@ function fb_logout(){
     authenticationListener(); //this line turns off the listener
     firebase.auth().signOut();
     console.log("logged out")
-    
+
 }
+
+//I don't know why but the changes in this file don't seem to be registered
