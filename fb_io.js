@@ -36,4 +36,5 @@ function fb_logout(){
     authenticationListener(); //this line turns off the listener
     firebase.auth().signOut();
     console.log("logged out")
+    
 }
